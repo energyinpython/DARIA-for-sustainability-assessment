@@ -6,7 +6,6 @@ import copy
 from scipy.stats import pearsonr
 
 def draw_heatmap(df_new_heatmap, title):
-    #plt.figure(figsize = (8,5))
     sns.set(font_scale=1.4)
     heatmap = sns.heatmap(df_new_heatmap, annot=True, fmt=".4f", cmap="BuPu",
                           linewidth=0.5, linecolor='w')
