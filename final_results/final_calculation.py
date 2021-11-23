@@ -68,7 +68,7 @@ df_writer_all.to_csv('output/results_all.csv')
 
 
 #plot
-#rysunki final rankings
+#plots final rankings
 #radar
 dane = copy.deepcopy(df_final_ranks)
 fig=plt.figure()
@@ -103,14 +103,10 @@ plt.show()
 data = copy.deepcopy(df_final_ranks)
 method_types = list(data.columns)
 
-dict_new_heatmap_rw = {'TOPSIS': [],
+dict_new_heatmap_pearson = {'TOPSIS': [],
                         'VIKOR': [],
                         'COMET': [],
                         }
-
-#dict_new_heatmap_ws = copy.deepcopy(dict_new_heatmap_rw)
-
-dict_new_heatmap_pearson = copy.deepcopy(dict_new_heatmap_rw)
 
 
 # heatmaps for correlations coefficients
