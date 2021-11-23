@@ -37,13 +37,7 @@ for year in years:
 
     df_data = df_data.dropna()
     
-    print(df_data)
-    df_country.to_csv('alts.csv')
-    df_data.to_csv('names' + str(year) + '.csv')
-
-    
     matrix = df_data.to_numpy()
-    
     
     # mcda
     weights = critic_weighting(matrix)
@@ -64,13 +58,11 @@ for year in years:
     df_writer_pref['VIKOR'] = pref
     df_writer_rank['VIKOR'] = rank
 
-
     # COMET
     pref, rank = COMET(matrix, weights, types, norm_method)
 
     df_writer_pref['COMET'] = pref
     df_writer_rank['COMET'] = rank
-
 
     df_writer_pref.to_csv('results_pref_' + str(year) + '.csv')
     df_writer_rank.to_csv('results_rank_' + str(year) + '.csv')
