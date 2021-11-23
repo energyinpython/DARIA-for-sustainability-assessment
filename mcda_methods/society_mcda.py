@@ -9,7 +9,6 @@ from additions import *
 
 path = 'DATASET'
 years = [2015, 2016, 2017, 2018, 2019]
-#years = [2015]
 mcda_methods = ['TOPSIS', 'VIKOR', 'COMET']
 norm_method = minmax_normalization
 
