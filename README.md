@@ -6,5 +6,5 @@ If something is laborious and tedious, we automatize it! Need EUROSTAT data, but
 3. Calculate the correlations between the rankings provided by each MCDA method using **correlations**, which displays a correlation matrix with Pearson correlation coefficient values.
 4. Visualize country rankings in a nice looking radar chart form using **radar_charts**.
 5. Determine the values and directions of the variability of the criteria for each country in subsequent years analysed using the Gini coefficient by **variability_criteria**.
-6. Determine the values and directions of the variability of rankings for each country in subsequent years analysed using the Gini coefficient by **variability_rankings**.
+6. Determine the values and directions of the variability of rankings for each country in subsequent years analysed using the Gini coefficient by **variability_scores**.
 7. Get the final overall countries' ranking, taking into account the results of the rankings and their variability over the entire time studied using **final_results**.
