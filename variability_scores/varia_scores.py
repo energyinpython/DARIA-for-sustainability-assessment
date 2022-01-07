@@ -56,8 +56,6 @@ for el, met in enumerate(methods):
     df = df_data.T
     print(df)
     matrix = df.to_numpy()
-    # calculate variability
-    
 
     descending = True
     if met == 'vikor':
