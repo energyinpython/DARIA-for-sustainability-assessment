@@ -5,7 +5,6 @@ class DARIA():
     def __init__(self):
         pass
 
-    
     def _gini(self, R):
         t, m = np.shape(R)
         G = np.zeros(m)
@@ -24,6 +23,24 @@ class DARIA():
             G[i] = np.sum(Yi)
         return G
 
+
+    def _gini_criteria(self, DM):
+        t, n = np.shape(DM)
+        G = np.zeros(n)
+        # iteration over criteria j=1, 2, ..., n
+        for j in range(0, n):
+            Yj = np.zeros(t)
+            # iteration over periods p=1, 2, ..., t
+            if np.mean(DM[:, j]) != 0:
+                for p in range(0, t):
+                    for k in range(0, t):
+                        Yj[p] += np.abs(DM[p, j] - DM[k, j]) / (2 * t**2 * (np.sum(DM[:, j]) / t))
+            else:
+                for p in range(0, t):
+                    for k in range(0, t):
+                        Yj[p] += np.abs(DM[p, j] - DM[k, j]) / (t**2 - t)
+            G[j] = np.sum(Yj)
+        return G
 
     
     def _direction(self, R, descending):
@@ -88,7 +105,6 @@ class DARIA():
         return direction_list
 
 
-    
     def _update_efficiency(self, E, G, dir, descending):
         if descending == False:
             E = 1 - E
