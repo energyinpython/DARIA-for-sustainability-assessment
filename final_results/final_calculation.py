@@ -5,6 +5,14 @@ import matplotlib.pyplot as plt
 import copy
 from scipy.stats import pearsonr
 
+import sys
+
+sys.path.append('../../daria')
+
+from daria import DARIA
+
+
+
 def draw_heatmap(df_new_heatmap, title):
     #plt.figure(figsize = (8,5))
     sns.set(font_scale=1.4)
@@ -38,16 +46,18 @@ df_final_ranks['Ai'] = list(E_df.index)
 
 for met in methods:
     E = E_df[met].to_numpy()
-    # VIKOR has ascending ranking from prefs
-    if met == 'VIKOR':
-        E = 1 - E
     G = G_df[met].to_numpy()
     dir = G_df[met + ' dir'].to_numpy()
-
-    fin_E = E + G * dir
-
+    # VIKOR has ascending ranking from prefs
+    descending = True
     if met == 'VIKOR':
-        fin_E = 1 - fin_E
+        descending = False
+
+    # update efficiencies using DARIA methodology
+    daria = DARIA()
+    fin_E = daria._update_efficiency(E, G, dir, descending)
+
+    if descending == False:
         rankingPrep = np.argsort(fin_E)
     else:
         rankingPrep = np.argsort(-fin_E)
