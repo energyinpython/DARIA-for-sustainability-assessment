@@ -11,8 +11,6 @@ sys.path.append('../../daria')
 
 from daria import DARIA
 
-
-
 def draw_heatmap(df_new_heatmap, title):
     #plt.figure(figsize = (8,5))
     sns.set(font_scale=1.4)
@@ -105,7 +103,7 @@ ax.set_axisbelow(True)
 plt.legend(dane.columns, bbox_to_anchor=(0.95, 1.05, 0.3, 0.2), loc='upper left', title='MCDAs used with DARIA')
 plt.title('Final rankings')
 plt.tight_layout()
-plt.savefig('output/radar_' + 'rankings' + '.pdf')
+plt.savefig('output/radar_' + 'rankings' + '.png')
 plt.show()
 
 # correlations
@@ -133,5 +131,5 @@ df_new_heatmap_pearson.columns = method_types
 
 # correlation matrix with pearson coefficient
 draw_heatmap(df_new_heatmap_pearson, r'$Pearson$')
-plt.savefig('output/pearson_final_ranks' + '.pdf')
+plt.savefig('output/pearson_final_ranks' + '.png')
 plt.show()
