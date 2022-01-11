@@ -7,62 +7,69 @@ from vikor import VIKOR
 from comet import COMET
 from additions import *
 
-path = 'DATASET'
-years = [2015, 2016, 2017, 2018, 2019]
-mcda_methods = ['TOPSIS', 'VIKOR', 'COMET']
-norm_method = minmax_normalization
 
-list_alt_names = []
-for i in range(1, 26 + 1):
-    list_alt_names.append(r'$A_{' + str(i) + '}$')
+def main():
+    path = 'DATASET'
+    years = [2015, 2016, 2017, 2018, 2019]
+    methods = [
+        'topsis',
+        'vikor',
+        'comet',
+        ]
+    norm_method = minmax_normalization
 
-df_writer_pref = pd.DataFrame()
-df_writer_pref['Ai'] = list_alt_names
+    list_alt_names = []
+    for i in range(1, 26 + 1):
+        list_alt_names.append(r'$A_{' + str(i) + '}$')
 
-df_writer_rank = pd.DataFrame()
-df_writer_rank['Ai'] = list_alt_names
 
-df_country = pd.DataFrame()
-df_country['Ai'] = list_alt_names
+    for method in methods:
+        df_writer_pref = pd.DataFrame()
+        df_writer_pref['Ai'] = list_alt_names
 
-for year in years:
+        df_writer_rank = pd.DataFrame()
+        df_writer_rank['Ai'] = list_alt_names
+
+        for year in years:
+            file = 'data_' + str(year) + '.csv'
+            pathfile = os.path.join(path, file)
+            data = pd.read_csv(pathfile, index_col = 'Country')
+
+            df_data = data.iloc[:len(data) - 1, :]
+            types = data.iloc[len(data) - 1, :].to_numpy()
+
+            df_data = df_data.dropna()
+            print(df_data)
+            matrix = df_data.to_numpy()
     
-    file = 'data_' + str(year) + '.csv'
-    pathfile = os.path.join(path, file)
-    data = pd.read_csv(pathfile, index_col = 'Country')
+            # mcda
+            weights = critic_weighting(matrix)
 
-    df_data = data.iloc[:len(data) - 1, :]
-    types = data.iloc[len(data) - 1, :].to_numpy()
+            # TOPSIS
+            if method == 'topsis':
+                pref = TOPSIS(matrix, weights, types, norm_method)
+                rankingPrep = np.argsort(-pref)
+                rank = np.argsort(rankingPrep) + 1
 
-    df_data = df_data.dropna()
-    
-    matrix = df_data.to_numpy()
-    
-    # mcda
-    weights = critic_weighting(matrix)
+            # VIKOR
+            elif method == 'vikor':
+                pref = VIKOR(matrix, weights, types, norm_method)
+                rankingPrep = np.argsort(pref)
+                rank = np.argsort(rankingPrep) + 1
 
-    # TOPSIS
-    pref = TOPSIS(matrix, weights, types, norm_method)
-    rankingPrep = np.argsort(-pref)
-    rank = np.argsort(rankingPrep) + 1
+            # COMET
+            # be patient as the program may take longer to execute
+            elif method == 'comet':
+                pref, rank = COMET(matrix, weights, types, norm_method)
 
-    df_writer_pref['TOPSIS'] = pref
-    df_writer_rank['TOPSIS'] = rank
+            df_writer_pref[str(year)] = pref
+            df_writer_rank[str(year)] = rank
 
-    # VIKOR
-    pref = VIKOR(matrix, weights, types, norm_method)
-    rankingPrep = np.argsort(pref)
-    rank = np.argsort(rankingPrep) + 1
+        df_writer_pref = df_writer_pref.set_index('Ai')
+        df_writer_rank = df_writer_rank.set_index('Ai')
+        df_writer_pref.to_csv('output/' + method + '_pref.csv')
+        df_writer_rank.to_csv('output/' + method + '_rank.csv')
 
-    df_writer_pref['VIKOR'] = pref
-    df_writer_rank['VIKOR'] = rank
-
-    # COMET
-    pref, rank = COMET(matrix, weights, types, norm_method)
-
-    df_writer_pref['COMET'] = pref
-    df_writer_rank['COMET'] = rank
-
-    df_writer_pref.to_csv('results_pref_' + str(year) + '.csv')
-    df_writer_rank.to_csv('results_rank_' + str(year) + '.csv')
+if __name__ == "__main__":
+    main()
     
