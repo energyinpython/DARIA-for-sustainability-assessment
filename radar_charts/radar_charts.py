@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 
 
 def main():
+    
     methods = ['topsis',
                'vikor',
                'comet',
