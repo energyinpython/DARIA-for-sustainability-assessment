@@ -65,18 +65,18 @@ def main():
     G_df = G_df.set_index('Ai')
 
     # data with alternatives' efficiency of performance calculated for the recent period
-    E_df = pd.read_csv('data/results_pref_2019.csv')
-    E_df = E_df.iloc[:, 1:]
-    E_df = E_df.set_index('Ai')
+    S_df = pd.read_csv('data/results_pref_2019.csv')
+    S_df = S_df.iloc[:, 1:]
+    S_df = S_df.set_index('Ai')
 
-    df_final_E = pd.DataFrame()
-    df_final_E['Ai'] = list(E_df.index)
+    df_final_S = pd.DataFrame()
+    df_final_S['Ai'] = list(S_df.index)
 
     df_final_ranks = pd.DataFrame()
-    df_final_ranks['Ai'] = list(E_df.index)
+    df_final_ranks['Ai'] = list(S_df.index)
 
     for met in methods:
-        E = E_df[met].to_numpy()
+        S = S_df[met].to_numpy()
         G = G_df[met].to_numpy()
         dir = G_df[met + ' dir'].to_numpy()
         # VIKOR has ascending ranking from prefs
@@ -86,24 +86,24 @@ def main():
 
         # update efficiencies using DARIA methodology
         daria = DARIA()
-        fin_E = daria._update_efficiency(E, G, dir, descending)
+        final_S = daria._update_efficiency(S, G, dir, descending)
 
         if descending == False:
-            rankingPrep = np.argsort(fin_E)
+            rankingPrep = np.argsort(final_S)
         else:
-            rankingPrep = np.argsort(-fin_E)
-        df_final_E[met] = list(fin_E)
+            rankingPrep = np.argsort(-final_S)
+        df_final_S[met] = list(final_S)
 
         rank = np.argsort(rankingPrep) + 1
 
         df_final_ranks[met] = list(rank)
 
     # final efficiencies
-    df_final_E = df_final_E.set_index('Ai')
+    df_final_S = df_final_S.set_index('Ai')
     # final rankings
     df_final_ranks = df_final_ranks.set_index('Ai')
 
-    df_writer_all = pd.concat([df_final_E, df_final_ranks], axis = 1)
+    df_writer_all = pd.concat([df_final_S, df_final_ranks], axis = 1)
     df_writer_all.to_csv('output/results_all.csv')
 
 

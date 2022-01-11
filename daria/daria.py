@@ -105,10 +105,10 @@ class DARIA():
         return direction_list
 
 
-    def _update_efficiency(self, E, G, dir, descending):
+    def _update_efficiency(self, S, G, dir, descending):
         if descending == False:
-            E = 1 - E
-        fin_E = E + G * dir
+            S = 1 - S
+        final_S = S + G * dir
         if descending == False:
-            fin_E = 1 - fin_E
-        return fin_E
+            final_S = 1 - final_S
+        return final_S
