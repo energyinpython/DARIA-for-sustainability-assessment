@@ -5,7 +5,7 @@ import copy
 
 import sys
 
-sys.path.append('../../daria')
+sys.path.append('../daria')
 
 from daria import DARIA
 

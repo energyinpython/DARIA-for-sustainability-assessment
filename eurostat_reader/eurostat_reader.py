@@ -50,13 +50,13 @@ def main():
     
         new_df = pd.concat([df_crit, df])
         # write to csv cured dataset for given criterion
-        df.to_csv('DATASET/output_cured/' + 'data_C' + str(i) + '.csv')
+        df.to_csv('output_cured/' + 'data_C' + str(i) + '.csv')
         # write to dataframe each cured dataset for subsequent criteria
         df_all = pd.concat([df_all, new_df], axis = 1)
 
     # final dataframe with complete results
     print(df_all)
-    df_all.to_csv('DATASET/output_all/' + 'data_all.csv')
+    df_all.to_csv('output_all/' + 'data_all.csv')
 
 if __name__ == '__main__':
     main()

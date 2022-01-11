@@ -46,5 +46,5 @@ for year in years:
 
     # correlation matrix with pearson coefficient
     draw_heatmap(df_new_heatmap_pearson, r'$Pearson$' + ', Year: ' + year)
-    plt.savefig('pearson_' + str(year) + '.pdf')
+    plt.savefig('output/pearson_' + str(year) + '.png')
     plt.show()

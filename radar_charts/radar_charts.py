@@ -38,7 +38,7 @@ def main():
         plt.legend(dane.columns, bbox_to_anchor=(1.1, 0.95, 0.3, 0.2), loc='upper left')
         plt.title(met.upper())
         plt.tight_layout()
-        plt.savefig('radar_' + met + '.pdf')
+        plt.savefig('output/radar_' + met + '.png')
         plt.show()
 
 if __name__ == '__main__':
