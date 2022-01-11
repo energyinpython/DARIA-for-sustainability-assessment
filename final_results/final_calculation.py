@@ -11,6 +11,7 @@ sys.path.append('../../daria')
 
 from daria import DARIA
 
+# for correlations heat maps
 def draw_heatmap(df_new_heatmap, title):
     #plt.figure(figsize = (8,5))
     sns.set(font_scale=1.4)
@@ -21,115 +22,123 @@ def draw_heatmap(df_new_heatmap, title):
     plt.title('Correlation: ' + title)
     plt.tight_layout()
 
-methods = [
-    'TOPSIS',
-    'VIKOR',
-    'COMET',
-    ]
+# for radar chart
+def radar_chart(dane):
+    fig=plt.figure()
+    ax = fig.add_subplot(111, polar=True)
 
-# data with alternatives' rankings' variability values calculated with Gini coeff and directions
-G_df = pd.read_csv('data/FINAL_Gini coefficient.csv')
-G_df = G_df.set_index('Ai')
+    for col in list(dane.columns):
+        labels=np.array(list(dane.index))
+        stats = dane.loc[labels, col].values
 
-# data with alternatives' efficiency of performance calculated for the recent period
-E_df = pd.read_csv('data/results_pref_2019.csv')
-E_df = E_df.iloc[:, 1:]
-E_df = E_df.set_index('Ai')
-
-df_final_E = pd.DataFrame()
-df_final_E['Ai'] = list(E_df.index)
-
-df_final_ranks = pd.DataFrame()
-df_final_ranks['Ai'] = list(E_df.index)
-
-for met in methods:
-    E = E_df[met].to_numpy()
-    G = G_df[met].to_numpy()
-    dir = G_df[met + ' dir'].to_numpy()
-    # VIKOR has ascending ranking from prefs
-    descending = True
-    if met == 'VIKOR':
-        descending = False
-
-    # update efficiencies using DARIA methodology
-    daria = DARIA()
-    fin_E = daria._update_efficiency(E, G, dir, descending)
-
-    if descending == False:
-        rankingPrep = np.argsort(fin_E)
-    else:
-        rankingPrep = np.argsort(-fin_E)
-    df_final_E[met] = list(fin_E)
-
-    rank = np.argsort(rankingPrep) + 1
-
-    df_final_ranks[met] = list(rank)
-
-# final efficiencies
-df_final_E = df_final_E.set_index('Ai')
-# final rankings
-df_final_ranks = df_final_ranks.set_index('Ai')
-
-df_writer_all = pd.concat([df_final_E, df_final_ranks], axis = 1)
-df_writer_all.to_csv('output/results_all.csv')
-
-
-#plot
-#plot of final rankings
-#radar
-dane = copy.deepcopy(df_final_ranks)
-fig=plt.figure()
-ax = fig.add_subplot(111, polar=True)
-
-for col in list(dane.columns):
-    labels=np.array(list(dane.index))
-    stats = dane.loc[labels, col].values
-
-    angles=np.linspace(0, 2*np.pi, len(labels), endpoint=False)
-    # close the plot
-    stats=np.concatenate((stats,[stats[0]]))
-    angles=np.concatenate((angles,[angles[0]]))
+        angles=np.linspace(0, 2*np.pi, len(labels), endpoint=False)
+        # close the plot
+        stats=np.concatenate((stats,[stats[0]]))
+        angles=np.concatenate((angles,[angles[0]]))
     
-    lista = list(dane.index)
-    lista.append(dane.index[0])
-    labels=np.array(lista)
+        lista = list(dane.index)
+        lista.append(dane.index[0])
+        labels=np.array(lista)
 
-    ax.plot(angles, stats, '-', linewidth=1)
-    ax.fill_between(angles, stats, alpha=0.05)
+        ax.plot(angles, stats, '-', linewidth=1)
+        ax.fill_between(angles, stats, alpha=0.05)
     
-ax.set_thetagrids(angles * 180/np.pi, labels)
-ax.grid(True)
-ax.set_axisbelow(True)
-plt.legend(dane.columns, bbox_to_anchor=(0.95, 1.05, 0.3, 0.2), loc='upper left', title='MCDAs used with DARIA')
-plt.title('Final rankings')
-plt.tight_layout()
-plt.savefig('output/radar_' + 'rankings' + '.png')
-plt.show()
-
-# correlations
-data = copy.deepcopy(df_final_ranks)
-method_types = list(data.columns)
-
-dict_new_heatmap_rw = {'TOPSIS': [],
-                        'VIKOR': [],
-                        'COMET': [],
-                        }
-
-#dict_new_heatmap_ws = copy.deepcopy(dict_new_heatmap_rw)
-
-dict_new_heatmap_pearson = copy.deepcopy(dict_new_heatmap_rw)
+    ax.set_thetagrids(angles * 180/np.pi, labels)
+    ax.grid(True)
+    ax.set_axisbelow(True)
+    plt.legend(dane.columns, bbox_to_anchor=(0.95, 1.05, 0.3, 0.2), loc='upper left', title='MCDAs used with DARIA')
+    plt.title('Final rankings')
+    plt.tight_layout()
+    plt.savefig('output/radar_' + 'rankings' + '.png')
+    plt.show()
 
 
-# heatmaps for correlations coefficients
-for i in method_types[::-1]:
-    for j in method_types:
-        corr_p, _ = pearsonr(data[i], data[j])
-        dict_new_heatmap_pearson[j].append(corr_p)
+def main():
+    methods = [
+        'TOPSIS',
+        'VIKOR',
+        'COMET',
+        ]
 
-df_new_heatmap_pearson = pd.DataFrame(dict_new_heatmap_pearson, index = method_types[::-1])
-df_new_heatmap_pearson.columns = method_types
+    # data with alternatives' rankings' variability values calculated with Gini coeff and directions
+    G_df = pd.read_csv('data/FINAL_Gini coefficient.csv')
+    G_df = G_df.set_index('Ai')
 
-# correlation matrix with pearson coefficient
-draw_heatmap(df_new_heatmap_pearson, r'$Pearson$')
-plt.savefig('output/pearson_final_ranks' + '.png')
-plt.show()
+    # data with alternatives' efficiency of performance calculated for the recent period
+    E_df = pd.read_csv('data/results_pref_2019.csv')
+    E_df = E_df.iloc[:, 1:]
+    E_df = E_df.set_index('Ai')
+
+    df_final_E = pd.DataFrame()
+    df_final_E['Ai'] = list(E_df.index)
+
+    df_final_ranks = pd.DataFrame()
+    df_final_ranks['Ai'] = list(E_df.index)
+
+    for met in methods:
+        E = E_df[met].to_numpy()
+        G = G_df[met].to_numpy()
+        dir = G_df[met + ' dir'].to_numpy()
+        # VIKOR has ascending ranking from prefs
+        descending = True
+        if met == 'VIKOR':
+            descending = False
+
+        # update efficiencies using DARIA methodology
+        daria = DARIA()
+        fin_E = daria._update_efficiency(E, G, dir, descending)
+
+        if descending == False:
+            rankingPrep = np.argsort(fin_E)
+        else:
+            rankingPrep = np.argsort(-fin_E)
+        df_final_E[met] = list(fin_E)
+
+        rank = np.argsort(rankingPrep) + 1
+
+        df_final_ranks[met] = list(rank)
+
+    # final efficiencies
+    df_final_E = df_final_E.set_index('Ai')
+    # final rankings
+    df_final_ranks = df_final_ranks.set_index('Ai')
+
+    df_writer_all = pd.concat([df_final_E, df_final_ranks], axis = 1)
+    df_writer_all.to_csv('output/results_all.csv')
+
+
+    #plot
+    #plot of final rankings
+    #radar
+    dane = copy.deepcopy(df_final_ranks)
+    radar_chart(dane)
+
+    # correlations
+    data = copy.deepcopy(df_final_ranks)
+    method_types = list(data.columns)
+
+    dict_new_heatmap_rw = {'TOPSIS': [],
+                            'VIKOR': [],
+                            'COMET': [],
+                            }
+
+    #dict_new_heatmap_ws = copy.deepcopy(dict_new_heatmap_rw)
+
+    dict_new_heatmap_pearson = copy.deepcopy(dict_new_heatmap_rw)
+
+    # heatmaps for correlations coefficients
+    for i in method_types[::-1]:
+        for j in method_types:
+            corr_p, _ = pearsonr(data[i], data[j])
+            dict_new_heatmap_pearson[j].append(corr_p)
+
+    df_new_heatmap_pearson = pd.DataFrame(dict_new_heatmap_pearson, index = method_types[::-1])
+    df_new_heatmap_pearson.columns = method_types
+
+    # correlation matrix with pearson coefficient
+    draw_heatmap(df_new_heatmap_pearson, r'$Pearson$')
+    plt.savefig('output/pearson_final_ranks' + '.png')
+    plt.show()
+
+if __name__ == '__main__':
+    main()
