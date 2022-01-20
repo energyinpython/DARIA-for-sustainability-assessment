@@ -79,16 +79,13 @@ def main():
         S = S_df[met].to_numpy()
         G = G_df[met].to_numpy()
         dir = G_df[met + ' dir'].to_numpy()
-        # VIKOR has ascending ranking from prefs
-        descending = True
-        if met == 'VIKOR':
-            descending = False
 
         # update efficiencies using DARIA methodology
         daria = DARIA()
-        final_S = daria._update_efficiency(S, G, dir, descending)
+        final_S = daria._update_efficiency(S, G, dir)
 
-        if descending == False:
+        # VIKOR has ascending ranking from prefs
+        if met == 'VIKOR':
             rankingPrep = np.argsort(final_S)
         else:
             rankingPrep = np.argsort(-final_S)

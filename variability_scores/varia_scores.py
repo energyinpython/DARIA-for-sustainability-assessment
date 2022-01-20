@@ -34,28 +34,29 @@ def main():
 
         # names of columns in dataframe
         print(list(df_data.columns))
-
+        print(df_data)
         # dataframe for variability evaluation (transposed)
         df = df_data.T
         print(df)
         matrix = df.to_numpy()
     
-        descending = True
+        type = 1
+        # VIKOR orders preferences in ascending order
         if met == 'vikor':
-            descending = False
+            type *= -1
 
         # calculate efficiencies variability using DARIA methodology
         daria = DARIA()
         # calculate variability values
         var = daria._gini(matrix)
         # calculate variability directions
-        dir_list, dir_class = daria._direction(matrix, descending)
+        dir_list, dir_class = daria._direction(matrix, type)
 
         # for plot
         df_varia[met.upper()] = list(var)
         # for next stage of research
         df_varia_fin[met.upper()] = list(var)
-        df_varia_fin[met.upper() + ' dir'] = dir_class
+        df_varia_fin[met.upper() + ' dir'] = list(dir_class)
 
         df_results = pd.DataFrame()
         df_results['Ai'] = list(df.columns)

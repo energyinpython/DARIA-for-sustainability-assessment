@@ -20,7 +20,8 @@ def main():
     data = pd.read_csv('data/dataset.csv')
     data = data.set_index('Country')
     types = data.iloc[len(data) - 1, :-1].to_numpy()
-    df_data = data.iloc[:-1, :-1]
+    #df_data = data.iloc[:-1, :-1]
+    df_data = data.iloc[:-1, :]
     df_data = df_data.dropna()
 
     # ready dataframe
@@ -30,9 +31,8 @@ def main():
     # names of columns in dataframe
     print(list(df_data.columns))
     list_of_cols = []
-    for i in range(len(list(df_data.columns))):
+    for i in range(len(list(df_data.columns)) - 1):
         list_of_cols.append(r'$C_{' + str(i + 1) + '}$')
-
 
     df_countries = pd.DataFrame()
 
@@ -44,6 +44,11 @@ def main():
     for el, country in enumerate(list_country_names):
         # choose country
         df_data_country = df_data.loc[country]
+        # display country with years
+        print(df_data_country)
+        df_data_country = df_data_country.iloc[:, :-1]
+        # display country
+        print(df_data_country)
         matrix = df_data_country.to_numpy()
 
         # calculate criteria variability using DARIA methodology
