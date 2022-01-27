@@ -11,6 +11,7 @@ If something is laborious and tedious, we automatize it! Need EUROSTAT data, but
 8. ***Updating the last efficiency by its variability***. Get the final overall countries' ranking, taking into account the results of the rankings and their variability over the entire time studied using **final_results** using **_update_efficiency** method provided by **_DARIA_** class included in **daria** directory.
 
 **_Instructions for launching this software:_**
+
 To use the software, you need to install Python version >= 3.0 by downloading a version suitable for your OS from [Python downloads](https://www.python.org/downloads/) from the Downloads section.
 Then install the required Python packages by typing the following commands in the console. For example, if you use **pip**, you can install them as follows:
 ```
