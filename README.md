@@ -21,4 +21,4 @@ pip install matplotlib
 pip install scipy
 pip install seaborn
 ```
-To run the software, download the repository and run files with extensions .py in your favourite IDE (integrated development environment) or open source code editor, for example [Visual Studio Code](https://code.visualstudio.com/download) with the ability to execute and edit the source code. The authors of this software use the latest version of [Visual Studio Code](https://code.visualstudio.com/download).
+To run the software, download the repository and run files with extensions .py in your favourite IDE (integrated development environment) or open source code editor, for example [Visual Studio Code](https://code.visualstudio.com/download) with the ability to execute and edit the source code. The authors of this software use the latest version of [Visual Studio Code](https://code.visualstudio.com/download) on Windows.
