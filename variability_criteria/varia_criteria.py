@@ -30,9 +30,7 @@ def main():
 
     # names of columns in dataframe
     print(list(df_data.columns))
-    list_of_cols = []
-    for i in range(len(list(df_data.columns)) - 1):
-        list_of_cols.append(r'$C_{' + str(i + 1) + '}$')
+    list_of_cols = [r'$C_{' + str(i + 1) + '}$' for i in range(len(list(df_data.columns)) - 1)]
 
     df_countries = pd.DataFrame()
 
@@ -64,9 +62,7 @@ def main():
         # single dataframe for given country
         df_countries_part = pd.DataFrame()
 
-        new_list_of_cols = []
-        for i, col in enumerate(list_of_cols):
-            new_list_of_cols.append(col + dir_var[i])
+        new_list_of_cols = [col + dir_var[i] for i, col in enumerate(list_of_cols)]
 
         df_countries_part['Ci'] = new_list_of_cols
         df_countries_part[country] = list(var)

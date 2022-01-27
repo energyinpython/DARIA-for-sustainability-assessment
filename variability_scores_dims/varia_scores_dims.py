@@ -16,9 +16,7 @@ def main():
                'social_topsis',
                ]
 
-    list_alt_names = []
-    for i in range(1, 26 + 1):
-        list_alt_names.append(r'$A_{' + str(i) + '}$')
+    list_alt_names = [r'$A_{' + str(i) + '}$' for i in range(1, 26 + 1)]
 
     df_final = pd.DataFrame()
     # for plot

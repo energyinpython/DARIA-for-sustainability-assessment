@@ -19,9 +19,9 @@ def main():
         2018,
         2019,
     ]
-    str_years = []
-    for y in years:
-        str_years.append(str(y))
+
+    str_years = [str(y) for y in years]
+    
     methods = [
         'topsis',
         #'vikor',
@@ -29,11 +29,8 @@ def main():
         ]
     norm_method = minmax_normalization
 
-    list_alt_names = []
-    for i in range(1, 26 + 1):
-        list_alt_names.append(r'$A_{' + str(i) + '}$')
-
-
+    list_alt_names = [r'$A_{' + str(i) + '}$' for i in range(1, 26 + 1)]
+    
     for method in methods:
         df_writer_pref = pd.DataFrame()
         df_writer_pref['Ai'] = list_alt_names

@@ -16,11 +16,10 @@ def main():
                'comet',
                ]
 
-    list_alt_names = []
-    for i in range(1, 26 + 1):
-        list_alt_names.append(r'$A_{' + str(i) + '}$')
-
+    list_alt_names = [r'$A_{' + str(i) + '}$' for i in range(1, 26 + 1)]
+    
     df_final = pd.DataFrame()
+
     # for plot
     df_varia = pd.DataFrame()
     df_varia['Ai'] = list_alt_names
@@ -82,7 +81,6 @@ def main():
     # final results for plot
     #todraw = df_varia / df_varia.sum(axis = 0)
     df_varia = df_varia.set_index('Ai')
-
 
     # plot bar plot stacked
     # transpose
