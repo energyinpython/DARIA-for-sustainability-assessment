@@ -9,3 +9,15 @@ If something is laborious and tedious, we automatize it! Need EUROSTAT data, but
 6. ***Determination of criteria performance variability***. Determine the values and directions of the variability of the criteria for each country in subsequent years analysed using the Gini coefficient by **variability_criteria** using **_gini** and **_direction_criteria** methods provided by **_DARIA_** class included in **daria** directory. Criteria variability can be determined by the **_gini** method in the same way as the efficiencies variability due to the identical algorithm. However, the **_gini_criteria** method is also included in the DARIA class to better explain its algorithm with the typical determinations for criteria variability. Both methods work the same and produce identical results.
 7. ***Determination of alternatives efficiency variability***. Determine the values and directions of the variability of rankings for each country in subsequent years analysed using the Gini coefficient by **variability_scores** using **_gini** and **_direction** methods provided by **_DARIA_** class included in **daria** directory.
 8. ***Updating the last efficiency by its variability***. Get the final overall countries' ranking, taking into account the results of the rankings and their variability over the entire time studied using **final_results** using **_update_efficiency** method provided by **_DARIA_** class included in **daria** directory.
+
+**_Instructions for launching this software:_**
+To use the software, you need to install Python version >= 3.0 by downloading a version suitable for your OS from [Python downloads](https://www.python.org/downloads/) from the Downloads section.
+Then install the required Python packages by typing the following commands in the console. For example, if you use **pip**, you can install them as follows:
+```
+pip install numpy
+pip install pandas
+pip install matplotlib
+pip install scipy
+pip install seaborn
+```
+To run the software, download the repository and run files with extensions .py in open source code editor [Visual Studio Code](https://code.visualstudio.com/download) with the ability to execute and edit the source code.
