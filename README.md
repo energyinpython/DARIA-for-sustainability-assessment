@@ -5,7 +5,7 @@ If something is laborious and tedious, we automatize it! Need EUROSTAT data, but
 
 ***Please note:*** 
 
-After running the above scripts, if you notice that certain data is missing for particular criteria for a given year, insert manually (Ctrl+C, Ctrl+V) the data from the available last year by inserting the selected column in the CSV file. For example, there is no data for C3 for the year 2019, so insert column C3 from the file data_2018.csv in the file data_2019.csv 
+After running the above scripts, if you notice that certain data is missing for particular criteria for a given year, insert manually (Ctrl+C, Ctrl+V) the data from the available last year by inserting the selected column in the CSV file. Such data gaps are because for some criteria, some data are not yet available in Eurostat, or some data are collected at intervals of several years, such as at 3-year intervals. For example, there is no data for C3 for the year 2019, so insert column C3 from the file data_2018.csv in the file data_2019.csv 
 
 2. ***MCDA evaluation following years***. Evaluate the alternatives using **mcda_methods** containing the three MCDA methods TOPSIS, VIKOR and COMET and the supporting methods in additions.py. 
 3. ***Calculate rankings correlation***. Calculate the correlations between the rankings provided by each MCDA method using **correlations**, which displays a correlation matrix with Pearson correlation coefficient values. 
