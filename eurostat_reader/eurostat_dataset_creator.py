@@ -4,6 +4,7 @@ import os
 import copy
 
 def main():
+    # here select the year for which you want to create the decision matrix
     year = '2015'
     path = 'output_all'
     file_name = 'data_all.csv'
