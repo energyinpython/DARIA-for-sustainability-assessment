@@ -40,21 +40,22 @@ def main():
         df = df.loc[list_country_names]
 
         # prepare list of columns with given criterion name
-        crits = []
-        for j in range(df.shape[1]):
-            crits.append('C' + str(i))
+        crits = ['C' + str(i) for j in range(df.shape[1])]
 
         df_crit = pd.DataFrame([crits])
     
         df_crit.columns = wanted_columns[1:]
     
         new_df = pd.concat([df_crit, df])
-        # write to csv cured dataset for given criterion
-        df.to_csv('output_cured/' + 'data_C' + str(i) + '.csv')
+        # write to csv cured dataset for given criterion if you wish
+        # df.to_csv('output_cured/' + 'data_C' + str(i) + '.csv')
         # write to dataframe each cured dataset for subsequent criteria
         df_all = pd.concat([df_all, new_df], axis = 1)
 
     # final dataframe with complete results
+    df_all = df_all.rename_axis('Country')
+    # NaN (Not a Number values denote empty cells)
+    df_all = df_all.replace([':'], '')
     print(df_all)
     df_all.to_csv('output_all/' + 'data_all.csv')
 
