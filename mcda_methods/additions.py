@@ -61,18 +61,19 @@ def entropy_weighting(X):
     # normalization for profit criteria
     criteria_type = np.ones(np.shape(X)[1])
     pij = sum_normalization(X, criteria_type)
+    m, n = np.shape(pij)
 
-    Ej = np.zeros(np.shape(pij)[1])
-    for el in range(0, np.shape(pij)[1]):
-        if np.any(pij[:, el] == 0):
-            Ej[el] = 0
-        else:
-            Ej[el] = - np.sum(pij[:, el] * np.log(pij[:, el]))
+    H = np.zeros((m, n))
+    for j in range(n):
+        for i in range(m):
+            if pij[i, j] != 0:
+                H[i, j] = pij[i, j] * np.log(pij[i, j])
 
-    Ej = Ej / np.log(X.shape[0])
+    h = np.sum(H, axis = 0) * (-1 * ((np.log(m)) ** (-1)))
+    d = 1 - h
+    w = d / (np.sum(d))
 
-    wagi = (1 - Ej) / (np.sum(1 - Ej))
-    return wagi
+    return w
 
 
 # standard deviation weighting
