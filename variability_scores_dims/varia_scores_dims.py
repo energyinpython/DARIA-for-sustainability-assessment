@@ -101,7 +101,7 @@ def main():
     ax.set_xticklabels(list(todraw.index), rotation = 'horizontal')
     ax.tick_params(axis='both', labelsize=14)
     ax.set_xlim(-1, len(todraw) + 0.5)
-    ax.set_title(met[-6:].upper(), y = 1.13)
+    ax.set_title('DARIA-' + met[-6:].upper(), y = 1.13)
     ax.grid(True)
     ax.set_axisbelow(True)
     plt.tight_layout()
