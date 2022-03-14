@@ -1,6 +1,6 @@
 import numpy as np
 import copy
-
+import itertools
 
 class DARIA():
     def __init__(self):
@@ -13,14 +13,12 @@ class DARIA():
         for i in range(0, m):
             # iteration over periods p=1, 2, ..., t
             Yi = np.zeros(t)
-            if np.mean(R[:, i]) != 0:
-                for p in range(0, t):
-                    for k in range(0, t):
-                        Yi[p] += np.abs(R[p, i] - R[k, i]) / (2 * t**2 * (np.sum(R[:, i]) / t))
+            if np.mean(R[:, i]):
+                for p, k in itertools.product(range(t), range(t)):
+                    Yi[p] += np.abs(R[p, i] - R[k, i]) / (2 * t**2 * (np.sum(R[:, i]) / t))
             else:
-                for p in range(0, t):
-                    for k in range(0, t):
-                        Yi[p] += np.abs(R[p, i] - R[k, i]) / (t**2 - t)
+                for p, k in itertools.product(range(t), range(t)):
+                    Yi[p] += np.abs(R[p, i] - R[k, i]) / (t**2 - t)
             G[i] = np.sum(Yi)
         return G
 
@@ -32,16 +30,15 @@ class DARIA():
         for j in range(0, n):
             Yj = np.zeros(t)
             # iteration over periods p=1, 2, ..., t
-            if np.mean(DM[:, j]) != 0:
-                for p in range(0, t):
-                    for k in range(0, t):
-                        Yj[p] += np.abs(DM[p, j] - DM[k, j]) / (2 * t**2 * (np.sum(DM[:, j]) / t))
+            if np.mean(DM[:, j]):
+                for p, k in itertools.product(range(t), range(t)):
+                    Yj[p] += np.abs(DM[p, j] - DM[k, j]) / (2 * t**2 * (np.sum(DM[:, j]) / t))
             else:
-                for p in range(0, t):
-                    for k in range(0, t):
-                        Yj[p] += np.abs(DM[p, j] - DM[k, j]) / (t**2 - t)
+                for p, k in itertools.product(range(t), range(t)):
+                    Yj[p] += np.abs(DM[p, j] - DM[k, j]) / (t**2 - t)
             G[j] = np.sum(Yj)
         return G
+
 
     # for MCDA methods type = 1: descending order: higher is better, type -1: opposite
     def _direction(self, R, type):
@@ -55,10 +52,8 @@ class DARIA():
             for p in range(1, t):
                 thresh += R[p, i] - R[p - 1, i]
             # classification based on thresh
-            if thresh < 0:
-                dir_class[i] = -1
-            elif thresh > 0:
-                dir_class[i] = 1
+            dir_class[i] = np.sign(thresh)
+           
         direction_array = copy.deepcopy(dir_class)
         direction_array = direction_array * type
         for i in range(len(direction_array)):
@@ -82,10 +77,8 @@ class DARIA():
             for p in range(1, t):
                 thresh += DM[p, j] - DM[p - 1, j]
             
-            if thresh < 0:
-                dir_class[j] = -1
-            elif thresh > 0:
-                dir_class[j] = 1
+            dir_class[j] = np.sign(thresh)
+
         direction_array = copy.deepcopy(dir_class)
         direction_array = direction_array * crit_types
         for i in range(len(direction_array)):
